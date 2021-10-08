@@ -4,9 +4,7 @@ import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
-
 import java.nio.*;
-
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -99,48 +97,77 @@ public class HelloWorld {
 
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.
+        glShadeModel(GL_SMOOTH);
+
+        float rotate = 0.0f;
+        // Set background default color :
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glClearDepth(1.0f);
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LEQUAL);
+        glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+
+        // Set frustum :
+        float fh = 0.5f;
+        float aspect = (float) 600 / (float) 600;
+        float fw = fh * aspect;
+        glFrustum(-fw, fw, -fh, fh, 1.0f, 1000.0f);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+
 		while ( !glfwWindowShouldClose(window) ) {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-			glfwSwapBuffers(window); // swap the color buffers
-                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                // swap the color buffers
                 glLoadIdentity();                    
-                glTranslatef(0f,0.0f,-1f);             
-                glRotatef(45f,0.0f,1.0f,0.0f);               
+                glTranslatef(0f,0.0f,-5f);             
+                glRotatef(rotate,0.0f,1.0f,0.0f);  
+                glRotatef(rotate,0.0f,1.0f,1.0f);    
+                glRotatef(rotate,0.0f,1.0f,1.0f);                 
                 glColor3f(0.5f,0.5f,1.0f);  
                      
                 glBegin(GL_QUADS);    
-                   glColor3f(1.0f,1.0f,0.0f);           
-                   glVertex3f( 1.0f, 1.0f,-1.0f);        
-                   glVertex3f(-1.0f, 1.0f,-1.0f);        
-                   glVertex3f(-1.0f, 1.0f, 1.0f);
-                   glVertex3f( 1.0f, 1.0f, 1.0f);  
-                   glColor3f(1.0f,0.5f,0.0f);            
-                   glVertex3f( 1.0f,-1.0f, 1.0f);
-                   glVertex3f(-1.0f,-1.0f, 1.0f);
-                   glVertex3f(-1.0f,-1.0f,-1.0f);
-                   glVertex3f( 1.0f,-1.0f,-1.0f);
-                   glColor3f(1.0f,0.0f,0.0f);
-                   glVertex3f( 1.0f, 1.0f, 1.0f);
-                   glVertex3f(-1.0f, 1.0f, 1.0f);
-                   glVertex3f(-1.0f,-1.0f, 1.0f);
-                   glVertex3f( 1.0f,-1.0f, 1.0f);
-                   glColor3f(1.0f,1.0f,0.0f);
-                   glVertex3f( 1.0f,-1.0f,-1.0f);
-                   glVertex3f(-1.0f,-1.0f,-1.0f);
-                   glVertex3f(-1.0f, 1.0f,-1.0f);
-                   glVertex3f( 1.0f, 1.0f,-1.0f);
-                   glColor3f(0.0f,0.0f,1.0f);
-                   glVertex3f(-1.0f, 1.0f, 1.0f);
-                   glVertex3f(-1.0f, 1.0f,-1.0f);
-                   glVertex3f(-1.0f,-1.0f,-1.0f);
-                   glVertex3f(-1.0f,-1.0f, 1.0f);
-                   glColor3f(1.0f,0.0f,1.0f);
-                   glVertex3f( 1.0f, 1.0f,-1.0f);
-                   glVertex3f( 1.0f, 1.0f, 1.0f);
-                   glVertex3f( 1.0f,-1.0f, 1.0f);
-                   glVertex3f( 1.0f,-1.0f,-1.0f);
+                glColor3f(1.0f,1.0f,0.0f);           
+                glVertex3f( 1.0f, 1.0f,-1.0f);        
+                glVertex3f(-1.0f, 1.0f,-1.0f);        
+                glVertex3f(-1.0f, 1.0f, 1.0f);
+                glVertex3f( 1.0f, 1.0f, 1.0f);  
+
+                glColor3f(1.0f,0.5f,0.0f);            
+                glVertex3f( 1.0f,-1.0f, 1.0f);
+                glVertex3f(-1.0f,-1.0f, 1.0f);
+                glVertex3f(-1.0f,-1.0f,-1.0f);
+                glVertex3f( 1.0f,-1.0f,-1.0f);
+
+                glColor3f(1.0f,0.0f,0.0f);
+                glVertex3f( 1.0f, 1.0f, 1.0f);
+                glVertex3f(-1.0f, 1.0f, 1.0f);
+                glVertex3f(-1.0f,-1.0f, 1.0f);
+                glVertex3f( 1.0f,-1.0f, 1.0f);
+
+                glColor3f(1.0f,1.0f,0.0f);
+                glVertex3f( 1.0f,-1.0f,-1.0f);
+                glVertex3f(-1.0f,-1.0f,-1.0f);
+                glVertex3f(-1.0f, 1.0f,-1.0f);
+                glVertex3f( 1.0f, 1.0f,-1.0f);
+
+                glColor3f(0.0f,0.0f,1.0f);
+                glVertex3f(-1.0f, 1.0f, 1.0f);
+                glVertex3f(-1.0f, 1.0f,-1.0f);
+                glVertex3f(-1.0f,-1.0f,-1.0f);
+                glVertex3f(-1.0f,-1.0f, 1.0f);
+
+                glColor3f(1.0f,0.0f,1.0f);
+                glVertex3f( 1.0f, 1.0f,-1.0f);
+                glVertex3f( 1.0f, 1.0f, 1.0f);
+                glVertex3f( 1.0f,-1.0f, 1.0f);
+                glVertex3f( 1.0f,-1.0f,-1.0f);
+
                glEnd();    
+               rotate += 0.2f;
+               glfwSwapBuffers(window); 
 			// Poll for window events. The key callback above will only be
 			// invoked during this call.
 			glfwPollEvents();
